@@ -1,0 +1,180 @@
+// Start script
+script Hwork3Part1
+
+// Open MongoDB shell
+mongo
+
+// Create database
+use acme_loans
+
+
+// TESTING:
+
+// Insert an application
+db.applications.insertOne({
+    "application_number": 123456,
+    "name": "Emma Hoffmann",
+    "zipcode": "55008",
+    "status": "received",
+    "notes": [{
+        "phase": "submission",
+        "phase_order": 1,
+        "message": "Application received"
+    }]
+})
+
+// View the application
+db.applications.find({application_number: 123456})
+
+// Add personal details checking note (task completed)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { 
+      $set: { "status": "processing" },
+      $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "personal_details",
+          "phase_order": 2.1,
+          "task": "identity_verification",
+          "message": "ID documents received and verified"
+        }
+      }
+    }
+  )
+
+// Add personal details checking note (bottleneck)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "personal_details",
+          "phase_order": 2.1,
+          "task": "employment_verification",
+          "message": "BOTTLENECK: Employment verification not received"
+        }
+      }
+    }
+  )
+
+// Add credit checking note (task completed)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "credit_check",
+          "phase_order": 2.2,
+          "task": "verify_credit_score",
+          "message": "Credit score received and approved"
+        }
+      }
+    }
+  )
+
+// Add credit checking note (bottleneck)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "credit_check",
+          "phase_order": 2.2,
+          "task": "payment_history",
+          "message": "BOTTLENECK: Payment history not received"
+        }
+      }
+    }
+  )
+
+// Add certificate checking note (task completed)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "certificate_check",
+          "phase_order": 2.3,
+          "task": "verify_insurance",
+          "message": "Insurance received and approved"
+        }
+      }
+    }
+  )
+
+// Add certificate checking note (bottleneck)
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "processing",
+          "subphase": "certificate_check",
+          "phase_order": 2.3,
+          "task": "verify_insurance",
+          "message": "BOTTLENECK: Insurance not received"
+        }
+      }
+    }
+  )
+
+
+// Update the application status to accepted, add an acceptance note
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { 
+        $set: { "status": "accepted" },
+        $push: { 
+        "notes": {
+          "phase": "accepted",
+          "phase_order": 3,
+          "message": "Loan approved at 5% interest rate"
+        }
+      }
+    }
+  )
+
+// Add loan terms note
+db.applications.updateOne(
+    { "application_number": 123456 },
+    { $push: { 
+        "notes": {
+          "phase": "accepted",
+          "phase_order": 3,
+          "message": "10 year term, $10,000"
+        }
+      }
+    }
+  )
+
+// Insert another application
+db.applications.insertOne({
+    "application_number": 124124,
+    "name": "John Doe",
+    "zipcode": "55123",
+    "status": "received",
+    "notes": [{
+        "phase": "submission",
+        "phase_order": 1,
+        "message": "Application received"
+    }]
+})
+
+// Update the application status to rejected, add a reason note
+db.applications.updateOne(
+    { "application_number": 124124 },
+    { 
+        $set: { "status": "rejected" },
+        $push: { 
+        "notes": {
+          "phase": "rejected",
+          "phase_order": 4,
+          "message": "No Employment found, could not support loan amount"
+        }
+      }
+    }
+  )
+
+// Get application with notes
+db.applications.findOne({"application_number": 123456})
+

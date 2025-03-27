@@ -1,0 +1,251 @@
+Script started on 2025-03-27 23:33:27+00:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="121" LINES="15"]
+[0;32m@emmarhoffmann [0m➜ [1;34m/workspaces/homework-3-mongo-emmarhoffmann/Homework1 [0;36m([1;31mmain[0;36m) [0m$ ,[Kmongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("69045343-b94c-4df6-9707-ab0523e27a3f") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] 
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] 
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] 
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2025-03-27T21:14:41.227+0000 I CONTROL  [initandlisten] 
+> use acme_l;[3G[Juse acme_l[13Goans[3G[Juse acme_loans[17G
+switched to db acme_loans
+> db.applications.insertOne({[3G[Jdb.applications.insertOne({[30G
+...     "application_number": 123456,[5G[J    "application_number": 123456,[38G
+...     "name": "Emma Hoffmann",[5G[J    "name": "Emma Hoffmann",[33G
+...     "zipcode": "55008",[5G[J    "zipcode": "55008",[28G
+...     "status": "received",[5G[J    "status": "received",[30G
+...     "notes": [{[5G[J    "notes": [{[20G
+...         "phase": "submission",[5G[J        "phase": "submission",[35G
+...         "phase_order": 1,[5G[J        "phase_order": 1,[30G
+...         "message": "Application received"[5G[J        "message": "Application received"[46G
+...     }][5G[J    }][11G
+... })[5G[J})[7G
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("67e5e086ad726f01ac20451d")
+}
+> // View the application[3G[J// View the application[26G
+> db.applications.find({application_number: 123456})[3G[Jdb.applications.find({application_number: 123456})[53G
+{ "_id" : ObjectId("67e5e086ad726f01ac20451d"), "application_number" : 123456, "name" : "Emma Hoffmann", "zipcode" : "55008", "status" : "received", "notes" : [ { "phase" : "submission", "phase_order" : 1, "message" : "Application received" } ] }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { [5G[J    { [11G
+...       $set: { "status": "processing" },[5G[J      $set: { "status": "processing" },[44G
+...       $push: { [5G[J      $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "personal_details",[5G[J          "subphase": "personal_details",[46G
+...           "phase_order": 2.1,[5G[J          "phase_order": 2.1,[34G
+...           "task": "identity_verification",[5G[J          "task": "identity_verification",[47G
+...           "message": "ID documents received and verified"[5G[J          "message": "ID documents received and verified"[62G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "personal_details",[5G[J          "subphase": "personal_details",[46G
+...           "phase_order": 2.1,[5G[J          "phase_order": 2.1,[34G
+...           "task": "employment_verification",[5G[J          "task": "employment_verification",[49G
+...           "message": "BOTTLENECK: Employment verification not received"[5G[J          "message": "BOTTLENECK: Employment verification not received"[76G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "credit_check",[5G[J          "subphase": "credit_check",[42G
+...           "phase_order": 2.2,[5G[J          "phase_order": 2.2,[34G
+...           "task": "verify_credit_score",[5G[J          "task": "verify_credit_score",[45G
+...           "message": "Credit score received and approved"[5G[J          "message": "Credit score received and approved"[62G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "credit_check",[5G[J          "subphase": "credit_check",[42G
+...           "phase_order": 2.2,[5G[J          "phase_order": 2.2,[34G
+...           "task": "payment_history",[5G[J          "task": "payment_history",[41G
+...           "message": "BOTTLENECK: Payment history not received"[5G[J          "message": "BOTTLENECK: Payment history not received"[68G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "certificate_check",[5G[J          "subphase": "certificate_check",[47G
+...           "phase_order": 2.3,[5G[J          "phase_order": 2.3,[34G
+...           "task": "verify_insurance",[5G[J          "task": "verify_insurance",[42G
+...           "message": "Insurance received and approved"[5G[J          "message": "Insurance received and approved"[59G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "processing",[5G[J          "phase": "processing",[37G
+...           "subphase": "certificate_check",[5G[J          "subphase": "certificate_check",[47G
+...           "phase_order": 2.3,[5G[J          "phase_order": 2.3,[34G
+...           "task": "verify_insurance",[5G[J          "task": "verify_insurance",[42G
+...           "message": "BOTTLENECK: Insurance not received"[5G[J          "message": "BOTTLENECK: Insurance not received"[62G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { [5G[J    { [11G
+...         $set: { "status": "accepted" },[5G[J        $set: { "status": "accepted" },[44G
+...         $push: { [5G[J        $push: { [22G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "accepted",[5G[J          "phase": "accepted",[35G
+...           "phase_order": 3,[5G[J          "phase_order": 3,[32G
+...           "message": "Loan approved at 5% interest rate"[5G[J          "message": "Loan approved at 5% interest rate"[61G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> [3G[J[3G
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 123456 },[5G[J    { "application_number": 123456 },[42G
+...     { $push: { [5G[J    { $push: { [20G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "accepted",[5G[J          "phase": "accepted",[35G
+...           "phase_order": 3,[5G[J          "phase_order": 3,[32G
+...           "message": "10 year term, $10,000"[5G[J          "message": "10 year term, $10,000"[49G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.insertOne({[3G[Jdb.applications.insertOne({[30G
+...     "application_number": 124124,[5G[J    "application_number": 124124,[38G
+...     "name": "John Doe",[5G[J    "name": "John Doe",[28G
+...     "zipcode": "55123",[5G[J    "zipcode": "55123",[28G
+...     "status": "received",[5G[J    "status": "received",[30G
+...     "notes": [{[5G[J    "notes": [{[20G
+...         "phase": "submission",[5G[J        "phase": "submission",[35G
+...         "phase_order": 1,[5G[J        "phase_order": 1,[30G
+...         "message": "Application received"[5G[J        "message": "Application received"[46G
+...     }][5G[J    }][11G
+... })[5G[J})[7G
+{
+	"acknowledged" : true,
+	"insertedId" : ObjectId("67e5e0ecad726f01ac20451e")
+}
+> [3G[J[3G
+> db.applications.updateOne([3G[Jdb.applications.updateOne([29G
+...     { "application_number": 124124 },[5G[J    { "application_number": 124124 },[42G
+...     { [5G[J    { [11G
+...         $set: { "status": "rejected" },[5G[J        $set: { "status": "rejected" },[44G
+...         $push: { [5G[J        $push: { [22G
+...         "notes": {[5G[J        "notes": {[23G
+...           "phase": "rejected",[5G[J          "phase": "rejected",[35G
+...           "phase_order": 4,[5G[J          "phase_order": 4,[32G
+...           "message": "No Employment found, could not support loan amount"[5G[J          "message": "No Employment found, could not support loan amount"[78G
+...         }[5G[J        }[14G
+...       }[5G[J      }[12G
+...     }[5G[J    }[10G
+...   )[5G[J  )[8G
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.applications.findOne({"application_number": 123456})[3G[Jdb.applications.findOne({"application_number": 123456})[58G
+{
+	"_id" : ObjectId("67e5e086ad726f01ac20451d"),
+	"application_number" : 123456,
+	"name" : "Emma Hoffmann",
+	"zipcode" : "55008",
+	"status" : "accepted",
+	"notes" : [
+		{
+			"phase" : "submission",
+			"phase_order" : 1,
+			"message" : "Application received"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "personal_details",
+			"phase_order" : 2.1,
+			"task" : "identity_verification",
+			"message" : "ID documents received and verified"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "personal_details",
+			"phase_order" : 2.1,
+			"task" : "employment_verification",
+			"message" : "BOTTLENECK: Employment verification not received"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "credit_check",
+			"phase_order" : 2.2,
+			"task" : "verify_credit_score",
+			"message" : "Credit score received and approved"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "credit_check",
+			"phase_order" : 2.2,
+			"task" : "payment_history",
+			"message" : "BOTTLENECK: Payment history not received"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "certificate_check",
+			"phase_order" : 2.3,
+			"task" : "verify_insurance",
+			"message" : "Insurance received and approved"
+		},
+		{
+			"phase" : "processing",
+			"subphase" : "certificate_check",
+			"phase_order" : 2.3,
+			"task" : "verify_insurance",
+			"message" : "BOTTLENECK: Insurance not received"
+		},
+		{
+			"phase" : "accepted",
+			"phase_order" : 3,
+			"message" : "Loan approved at 5% interest rate"
+		},
+		{
+			"phase" : "accepted",
+			"phase_order" : 3,
+			"message" : "10 year term, $10,000"
+		}
+	]
+}
+> exit[3G[Jexit[7G
+bye
+[0;32m@emmarhoffmann [0m➜ [1;34m/workspaces/homework-3-mongo-emmarhoffmann/Homework1 [0;36m([1;31mmain[0;36m) [0m$ e [Kxit
+exit
+
+Script done on 2025-03-27 23:36:52+00:00 [COMMAND_EXIT_CODE="0"]
