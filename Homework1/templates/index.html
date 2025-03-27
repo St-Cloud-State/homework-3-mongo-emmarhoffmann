@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <title>Loan Application</title>
+
+</head>
+
+<body>
+    <h1>Acme Financial Corp, Loan Applications</h1>
+	
+    <div id="submitApplication">
+        <h2>Submit an Application</h2>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="zipcode" placeholder="Zipcode">
+        <button onclick="submitApplication()">Submit</button>
+    </div>
+
+    <!-- Display the application list in this div -->
+    <div id="applicationList">
+        <!-- The applications will be displayed here -->
+    </div>
+
+    <!-- Check application status -->
+    <div id="checkStatus">
+        <h2>Check Application Status</h2>
+        <input type="text" id="applicationNumber" placeholder="Enter Application Number">
+        <button onclick="checkStatus()">Check Status</button>     
+    </div>
+
+    <!-- Show the application results -->
+    <div id="applicationStatus">
+        <!-- The application status will be displayed here -->
+    </div>
+
+    <!-- Change  application status -->
+    <div id="changeStatus">
+        <h2>Change Application Status</h2>
+        <input type="text" id="updateNumber" placeholder="Enter Application Number">
+        <select id="newStatus">
+            <option>received</option>
+            <option>processing</option>
+            <option>accepted</option>
+            <option>rejected</option>
+        </select>
+        <button onclick="updateStatus()">Update</button>     
+    </div>
+
+    <!-- Show the update -->
+    <div id="updateResult">
+        <!-- The application status update will be displayed here -->
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
