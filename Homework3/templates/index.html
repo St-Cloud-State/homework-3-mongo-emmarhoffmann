@@ -42,12 +42,44 @@
             <option>accepted</option>
             <option>rejected</option>
         </select>
+        <input type="text" id="statusReason" placeholder="Reason (optional)">
         <button onclick="updateStatus()">Update</button>     
     </div>
 
     <!-- Show the update -->
     <div id="updateResult">
         <!-- The application status update will be displayed here -->
+    </div>
+
+    <!-- Notes functionality -->
+    <div id="addNote">
+        <h2>Add Note to Application</h2>
+        <input type="text" id="noteNumber" placeholder="Application Number">
+        <select id="notePhase">
+            <option value="processing">Processing</option>
+            <option value="personal_details">Personal Details</option>
+            <option value="credit_check">Credit Check</option>
+            <option value="certificate_check">Certificate Check</option>
+            <option value="accepted">Acceptance</option>
+            <option value="rejected">Rejection</option>
+        </select>
+        <input type="text" id="noteTask" placeholder="Task (optional)">
+        <select id="noteType">
+            <option value="task_completed">Task Completed</option>
+            <option value="bottleneck">Bottleneck</option>
+        </select>
+        <textarea id="noteMessage" placeholder="Note Message"></textarea>
+        <button onclick="addNote()">Add Note</button>
+    </div> 
+
+    <div id="viewApplication">
+        <h2>View Application Details and Notes</h2>
+        <input type="text" id="viewNumber" placeholder="Application Number">
+        <button onclick="viewApplicationNotes()">View Details</button>
+    </div>
+
+    <div id="applicationDetails">
+        <!-- The application details and notes will be displayed here -->
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
