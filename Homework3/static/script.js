@@ -26,7 +26,6 @@ function submitApplication() {
             // Store the application number
             applicationData.number = data.application_number;
 
-            
             // Display a success message or handle errors if needed
             console.log(data.message);
 
@@ -35,7 +34,8 @@ function submitApplication() {
             console.log(applications)
 
             // Refresh the display
-            displayApplications(applicationData);
+            displayApplications();
+;
         })
         .catch(error => {
             console.error('Error submitting the application:', error);
@@ -87,6 +87,7 @@ function checkStatus() {
 function updateStatus() {
     const number = document.getElementById('updateNumber').value;
     const status = document.getElementById('newStatus').value;
+    const reason = document.getElementById('statusReason').value;
 
     // Send update request to server
     fetch('/api/update-status', {
@@ -96,7 +97,8 @@ function updateStatus() {
         },
         body: JSON.stringify({
             number: number,
-            status: status
+            status: status,
+            reason: reason
         })
     })
 
@@ -108,4 +110,75 @@ function updateStatus() {
         .catch(error => {
             console.error('Error updating the application status:', error);
         });        
+}
+
+// Function to add a note to an application
+function addNote() {
+    const number = document.getElementById('noteNumber').value;
+    const phase = document.getElementById('notePhase').value;
+    const task = document.getElementById('noteTask').value;
+    const noteType = document.getElementById('noteType').value;
+    const message = document.getElementById('noteMessage').value;
+
+    // Create note data
+    const noteData = {
+        number: number,
+        phase: phase,
+        task: task,
+        message: (noteType === 'bottleneck' ? 'BOTTLENECK: ' : '') + message
+    };
+
+    // Send note to server
+    fetch('/api/add-note', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(noteData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert('Note added successfully');
+            document.getElementById('noteMessage').value = '';
+        })
+        .catch(error => {
+            console.error('Error adding note:', error);
+        });
+}
+
+// Function to view application details and notess
+function viewApplicationNotes() {
+    const number = document.getElementById('viewNumber').value;
+    
+    fetch('/api/get-notes?number=' + number) 
+        .then(response => response.json())
+        .then(data => {
+            const detailsDiv = document.getElementById('applicationDetails');
+
+        if (data.error) {
+            detailsDiv.innerHTML = `<h3>${data.error}</h3>`;
+            return;
+        }
+
+        //Show application detials
+        let html = `
+        <h3>Application Details</h3>
+        <p>Application Number: ${data.application_number}</p>
+        <p>Name: ${data.name}</p>
+        <p>Zipcode: ${data.zipcode}</p>
+        <p>Status: ${data.status}</p>
+        <p>Notes:</p>
+        
+        `;
+
+        data.notes.forEach(note => {
+            html += `<div>${note.phase} - ${note.message}</div>`;
+        });
+
+        detailsDiv.innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Error retrieving application details:', error);
+    });    
+
 }

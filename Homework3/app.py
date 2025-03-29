@@ -5,7 +5,6 @@ import pymongo
 import os
 
 app = Flask(__name__)
-applications = {}
 
 # SQLite db for basic application info
 DATABASE = os.path.join(os.getcwd(), 'Homework3/db/applications.db')
@@ -79,7 +78,7 @@ def check_status():
     result = cursor.fetchone()
     conn.close()
 
-    if application_number in applications:
+    if result:
         return jsonify({'status': result[0]})
     return jsonify({'status': 'not found'})
 
@@ -95,7 +94,6 @@ def update_status():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("UPDATE Applications SET status = ? WHERE application_number = ?", (new_status, application_number))
-    result = cursor.fetchone()
     conn.commit()
     conn.close()
 
