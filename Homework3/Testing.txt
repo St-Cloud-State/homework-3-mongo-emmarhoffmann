@@ -1,0 +1,50 @@
+# Testing
+
+1. Application Submission
+  a. Emma Hoffmann
+  b. 55008
+     i. Submit
+     ii. Recall application number received
+        1. Verify success message
+
+2. Status Checking
+  a. Use application number from above for Check Application Status section
+     i. Verify received message (default status)
+  b. Try non-existing application number (000000)
+     i. Verify it shows not found
+
+3. Status Updates
+  a. Use application number from above for Change Application Status section
+     i. Change status to processing and add reason like beginning review process
+        1. Verify it shows status update confirmation
+        2. Check status again to confirm it changed to processing
+  b. Repeat with accepted and rejected statuses
+
+4. Notes Functionality
+  a. Test adding different types of notes
+     i. Processing phase note: Starting initial review
+     ii. Personal details note with task: Identity verified
+     iii. Bottleneck note: Waiting for employment verification
+     iv. Credit check note: Credit score accepted
+     v. Acceptance note: Terms: 5% interest rate
+     vi. Also check for rejection note by setting status to rejected
+
+5. View Application Details
+  a. Enter application number from above in the View Application Details section
+     i. Verify all application information appears correctly
+     ii. Verify all notes that have been added appear, and in the correct order
+     iii. Verify status is from most recent update
+
+6. Edge Cases
+  a. Test incomplete form: try without name
+  b. Test changing the status several times
+  c. Test adding long notes
+
+7. Database
+  a. Test that data is being stored correctly in the databases
+     i. Mongo
+        1. Use acme_loans
+        2. db.application_notes.find()
+     ii. Check SQLite
+        1. sqlite3 Homework3/db/applications.db
+        2. sqlite> SELECT * FROM Applications;
