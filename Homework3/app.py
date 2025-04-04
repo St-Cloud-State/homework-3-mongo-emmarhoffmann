@@ -51,6 +51,7 @@ def submit_application():
     conn.commit()
     conn.close()
 
+ 
     # add initial note in MongoDB
     initial_note = {
         'application_number': application_number,
@@ -59,6 +60,7 @@ def submit_application():
         'message': 'Application received'
     }
     notes_collection.insert_one(initial_note)
+
 
     return jsonify({
         'message': 'Application successfully submitted',

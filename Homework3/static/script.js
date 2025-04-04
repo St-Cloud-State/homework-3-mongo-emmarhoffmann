@@ -22,22 +22,16 @@ function submitApplication() {
     })
         .then(response => response.json())
         .then(data => {
+            alert(`Application submitted successfully!\nApplication Number: ${data.application_number}`);
 
-            // Store the application number
             applicationData.number = data.application_number;
 
-            // Display a success message or handle errors if needed
-            console.log(data.message);
-
-            // Add the new application data to the applications array
             applications.push(applicationData);
-            console.log(applications)
-
-            // Refresh the display
+            
             displayApplications();
-;
         })
         .catch(error => {
+            alert('Error submitting application. Please try again.');
             console.error('Error submitting the application:', error);
         });
 
@@ -104,10 +98,14 @@ function updateStatus() {
 
         .then(response => response.json())
         .then(data => {
+            alert(`Application #${number} updated to "${status}"` + (reason ? `\nReason: ${reason}` : ''));
+    
             const result = document.getElementById('updateResult');
-            result.innerHTML = `<h2>Status Successfully Updated</h2>`;
+           
+            result.innerHTML = `<h2>Status Successfully Updated</h2><p>New status: ${status}</p>`;
         })
         .catch(error => {
+            alert('Error updating the application. Please try again.');
             console.error('Error updating the application status:', error);
         });        
 }

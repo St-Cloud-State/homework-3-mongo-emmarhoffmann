@@ -35,16 +35,9 @@
      ii. Verify all notes that have been added appear, and in the correct order
      iii. Verify status is from most recent update
 
-6. Edge Cases
-  a. Test incomplete form: try without name
-  b. Test changing the status several times
-  c. Test adding long notes
-
-7. Database
+6. Database
   a. Test that data is being stored correctly in the databases
      i. Mongo
-        1. Use acme_loans
-        2. db.application_notes.find()
-     ii. Check SQLite
-        1. sqlite3 Homework3/db/applications.db
-        2. sqlite> SELECT * FROM Applications;
+        1. use acme_loans
+        2. show collections
+        3. db.application_notes.find().pretty()
